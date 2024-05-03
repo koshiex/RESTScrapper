@@ -6,10 +6,11 @@ RUN apt-get update && apt-get install -y \
     software-properties-common \
     unzip \
     zip \
+    xvfb \
+    firefox \
     curl
 
 RUN add-apt-repository ppa:openjdk-r/ppa
-
 
 RUN apt-get update; apt-get clean
 
@@ -28,4 +29,7 @@ WORKDIR /app
 
 RUN ./gradlew build
 
-CMD ["java", "-jar", "build/libs/ParseServer-0.0.1-SNAPSHOT.jar"]
+ENV DISPLAY=:99
+
+CMD Xvfb :99 -screen 0 1280x1024x24 & java -jar /app/build/libs/ParseServer-0.0.1-SNAPSHOT.jar
+

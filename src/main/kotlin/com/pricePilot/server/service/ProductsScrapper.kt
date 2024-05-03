@@ -2,13 +2,14 @@ package com.pricePilot.server.service
 
 import com.pricePilot.server.model.Product
 import io.github.bonigarcia.wdm.WebDriverManager
+import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebDriverException
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
-import org.openqa.selenium.safari.SafariDriver
-import org.openqa.selenium.safari.SafariOptions
+import org.openqa.selenium.support.ui.WebDriverWait
 import org.springframework.stereotype.Service
+import java.time.Duration
 
 @Service
 class ProductsScrapper : StoresScrapper {
@@ -20,10 +21,15 @@ class ProductsScrapper : StoresScrapper {
         WebDriverManager.chromedriver().setup()
 
         val options = ChromeOptions()
-        options.addArguments("--headless")
+//        options.addArguments("--headless")
         options.addArguments("--disable-gpu")
         options.addArguments("--no-sandbox")
         options.addArguments("--disable-dev-shm-usage")
+        options.addArguments("--enable-javascript")
+        options.addArguments("--disable-blink-features=AutomationControlled")
+        options.addArguments("--user-agent='Mozilla/5.0 (Macintosh; " +
+                "Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)" +
+                " Chrome/124.0.0.0 Safari/537.36'")
 
         webDriver = ChromeDriver(options)
     }
@@ -35,8 +41,13 @@ class ProductsScrapper : StoresScrapper {
         }
 
         return try {
-            webDriver.get(url);
-            webDriver.pageSource;
+            webDriver.get(url)
+            val allCookies: Set<Cookie> = webDriver.manage().cookies
+            WebDriverWait(webDriver, Duration.ofSeconds(10))
+            allCookies.forEach { cookie ->
+                webDriver.manage().addCookie(cookie) }
+            webDriver.navigate().refresh();
+            webDriver.pageSource
         } catch (e: WebDriverException) {
             null
         }
