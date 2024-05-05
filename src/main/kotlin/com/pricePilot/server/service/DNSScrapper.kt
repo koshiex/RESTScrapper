@@ -8,9 +8,9 @@ import com.pricePilot.server.model.Product
 
 
 class DNSScrapper(private val mainScrapper: StoresScrapper) : PageScrapper {
-    final val STORE_NAME = "DNS"
-    final val DNS_SEARCH_URL = "https://www.dns-shop.ru/search/?q=%s&order=price-asc"
-    final val DNS_URL = "https://www.dns-shop.ru"
+    private final val STORE_NAME = "DNS"
+    private final val DNS_SEARCH_URL = "https://www.dns-shop.ru/search/?q=%s&order=price-asc"
+    private final val DNS_URL = "https://www.dns-shop.ru"
 
     private val webClient = WebClient().apply {
         options.isJavaScriptEnabled = false

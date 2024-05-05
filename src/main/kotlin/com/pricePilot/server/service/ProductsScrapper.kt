@@ -1,5 +1,6 @@
 package com.pricePilot.server.service
 
+import com.frogking.chromedriver.*
 import com.pricePilot.server.model.Product
 import io.github.bonigarcia.wdm.WebDriverManager
 import org.openqa.selenium.Cookie
@@ -11,6 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait
 import org.springframework.stereotype.Service
 import java.time.Duration
 
+
 @Service
 class ProductsScrapper : StoresScrapper {
     private lateinit var webDriver: WebDriver
@@ -18,12 +20,12 @@ class ProductsScrapper : StoresScrapper {
     private val dnsScrapper by lazy { DNSScrapper(this) }
 
     override fun driverInit() {
-        WebDriverManager.chromedriver().setup()
+        val driverExecutablePath = System.getProperty("webdriver.chrome.driver")
 
         val options = ChromeOptions()
-//        options.addArguments("--headless")
         options.addArguments("--disable-gpu")
         options.addArguments("--no-sandbox")
+        options.addArguments("--window-size=1920,1080");
         options.addArguments("--disable-dev-shm-usage")
         options.addArguments("--enable-javascript")
         options.addArguments("--disable-blink-features=AutomationControlled")
@@ -31,7 +33,13 @@ class ProductsScrapper : StoresScrapper {
                 "Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)" +
                 " Chrome/124.0.0.0 Safari/537.36'")
 
-        webDriver = ChromeDriver(options)
+        try {
+            webDriver = ChromeDriverBuilder().build(options, driverExecutablePath)
+        } catch (e: Exception) {
+            println(e.message)
+            println("Driver path: $driverExecutablePath")
+            println("Browser path: ${WebDriverManager.chromedriver().browserPath}")
+        }
     }
 
 

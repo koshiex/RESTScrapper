@@ -14,11 +14,16 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
 }
 
+
 repositories {
     mavenCentral()
+    maven(url = "https://jitpack.io")
 }
 
+
+
 dependencies {
+    implementation(files("libs/UndetectedChromedriver-1.0-SNAPSHOT.jar"))
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")

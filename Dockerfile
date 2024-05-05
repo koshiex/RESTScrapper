@@ -31,5 +31,5 @@ RUN ./gradlew build
 
 ENV DISPLAY=:99
 
-CMD Xvfb :99 -screen 0 1280x1024x24 & java -jar /app/build/libs/ParseServer-0.0.1-SNAPSHOT.jar
+CMD Xvfb :99 -screen 0 1920x1080x24 & java -jar /app/build/libs/ParseServer-0.0.1-SNAPSHOT.jar
 
