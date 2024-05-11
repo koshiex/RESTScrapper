@@ -45,10 +45,10 @@ class DNSScrapper(private val mainScrapper: StoresScrapper) : PageScrapper {
 
     override fun getPrice(page: HtmlPage): String? {
         val element = page.getFirstByXPath(
-            "//*[@id=\"search-results\"]/div[2]/div/div[1]/div[1]/div[4]/div/div[1]/text()")
+            "//*[@id=\"search-results\"]/div[2]/div/div[1]/div[1]/div[4]/div/div[1]")
             as HtmlElement?
 
-        return element?.textContent?.replace("\u00a0", " ");
+        return element?.textContent
     }
 
     override fun getName(page: HtmlPage): String? {
