@@ -48,7 +48,7 @@ class DNSScrapper(private val mainScrapper: StoresScrapper) : PageScrapper {
             "//*[@id=\"search-results\"]/div[2]/div/div[1]/div[1]/div[4]/div/div[1]")
             as HtmlElement?
 
-        return element?.textContent
+        return element?.textContent?.let { Util.processPrice(it) }
     }
 
     override fun getName(page: HtmlPage): String? {
