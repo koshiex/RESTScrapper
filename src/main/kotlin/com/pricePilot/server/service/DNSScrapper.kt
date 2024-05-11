@@ -26,6 +26,7 @@ class DNSScrapper(private val mainScrapper: StoresScrapper) : PageScrapper {
             htmlStr = mainScrapper.getHtml(request)
             page = webClient.loadHtmlCodeIntoCurrentWindow(htmlStr)
         } catch (e: Exception) {
+            println(e)
             return null
         }
 

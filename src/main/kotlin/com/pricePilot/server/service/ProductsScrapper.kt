@@ -57,6 +57,7 @@ class ProductsScrapper : StoresScrapper {
             webDriver.navigate().refresh();
             webDriver.pageSource
         } catch (e: WebDriverException) {
+            println(e)
             null
         }
     }

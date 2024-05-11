@@ -27,6 +27,7 @@ class ProductController() {
             if (htmlStr != null) ResponseEntity.ok(htmlStr)
             else ResponseEntity(HttpStatus.NOT_FOUND)
         } catch (e: Exception) {
+            println(e)
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()
         } finally {
             productsScrapper.closeDriver()
@@ -39,6 +40,7 @@ class ProductController() {
             val products = productsScrapper.parseShops(productsName)
             ResponseEntity.ok(products)
         } catch (e: Exception) {
+            println(e)
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()
         }
     }
