@@ -24,11 +24,11 @@ repositories {
 
 dependencies {
     implementation(files("libs/UndetectedChromedriver-1.0-SNAPSHOT.jar"))
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-
     implementation("net.sourceforge.htmlunit:htmlunit:2.70.0")
     implementation("org.seleniumhq.selenium:selenium-java:4.1.0")
     implementation("io.github.bonigarcia:webdrivermanager:5.8.0")

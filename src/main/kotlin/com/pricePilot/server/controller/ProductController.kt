@@ -2,6 +2,7 @@ package com.pricePilot.server.controller
 
 import com.pricePilot.server.model.Product
 import com.pricePilot.server.service.StoresScrapper
+import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -37,7 +38,8 @@ class ProductController() {
     public fun parseProducts(@RequestParam productsName: String): CompletableFuture<ResponseEntity<List<Product?>>> =
         CompletableFuture.supplyAsync {
             try {
-                val products = productsScrapper.parseShops(productsName)
+                val products: List<Product?>
+                runBlocking { products = productsScrapper.parseShops(productsName).await() }
                 ResponseEntity.ok(products)
             } catch (e: Exception) {
                 println(e)

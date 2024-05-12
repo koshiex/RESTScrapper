@@ -2,6 +2,7 @@ package com.pricePilot.server.service
 
 import com.frogking.chromedriver.*
 import com.pricePilot.server.model.Product
+import kotlinx.coroutines.*
 import org.openqa.selenium.*
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.support.ui.WebDriverWait
@@ -11,7 +12,9 @@ import java.time.Duration
 
 @Service
 class ProductsScrapper : StoresScrapper {
+    private val parseScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val dnsScrapper by lazy { DNSScrapper(this) }
+    private val ozonScrapper by lazy { OzonScrapper(this) }
 
     override fun driverInit(): WebDriver {
         val driverExecutablePath = System.getProperty("webdriver.chrome.driver")
@@ -52,9 +55,10 @@ class ProductsScrapper : StoresScrapper {
     }
 
 
-    override fun parseShops(request: String): List<Product?> =
+    override fun parseShops(request: String): Deferred<List<Product?>> = parseScope.async {
         listOf(
-            dnsScrapper.scrapProduct(request)
+            async(Dispatchers.IO) { dnsScrapper.scrapProduct(request) }.await(),
+            async(Dispatchers.IO) { ozonScrapper.scrapProduct(request) }.await()
         )
-
+    }
 }
