@@ -9,8 +9,8 @@ import com.pricePilot.server.model.Product
 
 class OzonScrapper(private val mainScrapper: StoresScrapper) : PageScrapper {
     private final val STORE_NAME = "Ozon"
-    private final val OZON_SEARCH_URL = "https://www.ozon.ru/search/?from_global=true&sorting=price&text=%s"
-    private final val OZON_URL = "https://www.ozon.ru/"
+    private final val OZON_SEARCH_URL = "https://www.ozon.ru/search/?deny_category_prediction=true&category_was_predicted=false&from_global=true&sorting=price&text=%s"
+    private final val OZON_URL = "https://www.ozon.ru"
 
     private val webClient = WebClient().apply {
         options.isJavaScriptEnabled = false
@@ -44,7 +44,6 @@ class OzonScrapper(private val mainScrapper: StoresScrapper) : PageScrapper {
     }
 
     override fun getPrice(page: HtmlPage): String? {
-        val xpath = "//span[contains(@class, 'tsHeadline500Medium')]"
         val element = page.getFirstByXPath(
             "/html/body/div[1]/div/div[1]/div[2]/div[2]/div[2]/div[4]/div/div[1]/div/div[1]/div/div[1]/div[1]/div/span[1]")
                 as HtmlElement?

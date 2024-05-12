@@ -14,8 +14,8 @@ class DNSScrapper(private val mainScrapper: StoresScrapper) : PageScrapper {
     private final val DNS_URL = "https://www.dns-shop.ru"
 
     private val webClient = WebClient().apply {
-        options.isJavaScriptEnabled = true // ?
-        options.isCssEnabled = true
+        options.isJavaScriptEnabled = false
+        options.isCssEnabled = false
     }
 
     override fun scrapProduct(request: String): Product? {
