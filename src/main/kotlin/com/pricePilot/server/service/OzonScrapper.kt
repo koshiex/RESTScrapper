@@ -1,6 +1,7 @@
 package com.pricePilot.server.service
 
 import com.gargoylesoftware.htmlunit.WebClient
+import com.gargoylesoftware.htmlunit.html.DomText
 import com.gargoylesoftware.htmlunit.html.HtmlElement
 import com.gargoylesoftware.htmlunit.html.HtmlImage
 import com.gargoylesoftware.htmlunit.html.HtmlPage
@@ -43,11 +44,12 @@ class OzonScrapper(private val mainScrapper: StoresScrapper) : PageScrapper {
     }
 
     override fun getPrice(page: HtmlPage): String? {
+        val xpath = "//span[contains(@class, 'tsHeadline500Medium')]"
         val element = page.getFirstByXPath(
-            "//*[@id=\"paginatorContent\"]/div[1]/div/div[1]/div/div[1]/div[1]/div/span[1]")
+            "/html/body/div[1]/div/div[1]/div[2]/div[2]/div[2]/div[4]/div/div[1]/div/div[1]/div/div[1]/div[1]/div/span[1]")
                 as HtmlElement?
 
-        return element?.textContent?.let { Util.processPrice(it) }
+        return element?.textContent
     }
 
     override fun getName(page: HtmlPage): String? {

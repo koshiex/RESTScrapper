@@ -1,6 +1,7 @@
 package com.pricePilot.server.service
 
 import com.gargoylesoftware.htmlunit.WebClient
+import com.gargoylesoftware.htmlunit.html.DomText
 import com.gargoylesoftware.htmlunit.html.HtmlElement
 import com.gargoylesoftware.htmlunit.html.HtmlImage
 import com.gargoylesoftware.htmlunit.html.HtmlPage
@@ -13,8 +14,8 @@ class DNSScrapper(private val mainScrapper: StoresScrapper) : PageScrapper {
     private final val DNS_URL = "https://www.dns-shop.ru"
 
     private val webClient = WebClient().apply {
-        options.isJavaScriptEnabled = false
-        options.isCssEnabled = false
+        options.isJavaScriptEnabled = true // ?
+        options.isCssEnabled = true
     }
 
     override fun scrapProduct(request: String): Product? {
@@ -45,10 +46,10 @@ class DNSScrapper(private val mainScrapper: StoresScrapper) : PageScrapper {
 
     override fun getPrice(page: HtmlPage): String? {
         val element = page.getFirstByXPath(
-            "//*[@id=\"search-results\"]/div[2]/div/div[1]/div[1]/div[4]/div/div[1]")
-            as HtmlElement?
+            "/html/body/div[2]/div/div[3]/div[2]/div[2]/div/div[1]/div[1]/div[4]/div/div[1]/text()")
+            as DomText?
 
-        return element?.textContent?.let { Util.processPrice(it) }
+        return element?.data
     }
 
     override fun getName(page: HtmlPage): String? {
