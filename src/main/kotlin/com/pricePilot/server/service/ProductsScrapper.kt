@@ -55,10 +55,13 @@ class ProductsScrapper : StoresScrapper {
     }
 
 
-    override fun parseShops(request: String): Deferred<List<Product?>> = parseScope.async {
-        listOf(
-            async(Dispatchers.IO) { dnsScrapper.scrapProduct(request) }.await(),
-            async(Dispatchers.IO) { ozonScrapper.scrapProduct(request) }.await()
-        )
+    override fun parseShops(request: String): Deferred<List<Product?>> {
+        val requestFormatted = request.replace(" ", "+")
+        return parseScope.async {
+            listOf(
+                async(Dispatchers.IO) { dnsScrapper.scrapProduct(requestFormatted) }.await(),
+                async(Dispatchers.IO) { ozonScrapper.scrapProduct(requestFormatted) }.await()
+            )
+        }
     }
 }
