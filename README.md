@@ -6,7 +6,10 @@
 
 ## Overview
 REST Scrapper is a web scraper designed to interact through REST APIs. Allows you to extract the HTML of a page or get an array of products from various Russian marketplaces obtained by sorting prices in ascending order for a specific querytasks.
-In the future, it is planned to speed up the application, improve search results and add more marketplaces
+
+In the future, it is planned to speed up the application, improve search results, add more marketplaces and increase security.
+
+
 
 ## Features
 - Supports multiple REST API endpoints
@@ -25,7 +28,7 @@ In the future, it is planned to speed up the application, improve search results
 - [Undetected ChromeDriver for java](https://github.com/mabinogi233/UndetectedChromedriver)
 
 ## Getting Started
-
+By default, it works on port 80 via HTTP. HTTPS is not supported
 ### Prerequisites
 - Java 17 or higher
 - Docker (optional, for containerized deployment)
